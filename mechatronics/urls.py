@@ -1,5 +1,7 @@
 from django.conf.urls import patterns, include, url
 
+# import api
+
 from django.contrib import admin
 admin.autodiscover()
 
@@ -9,4 +11,5 @@ urlpatterns = patterns('',
     # url(r'^blog/', include('blog.urls')),
 
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^v1/', include('api.urls')),
 )
