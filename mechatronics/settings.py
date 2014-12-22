@@ -54,6 +54,8 @@ USE_L10N = True
 
 USE_TZ = True
 
+AUTH_USER_MODEL = 'api.Member'
+
 # Django Rest Framework
 # http://www.django-rest-framework.org/
 
