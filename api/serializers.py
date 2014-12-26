@@ -4,8 +4,13 @@ from api.models import *
 
 
 class MemberSerializer(serializers.ModelSerializer):
+	full_name = serializers.SerializerMethodField('_full_name')
+
 	class Meta:
 		model = Member
+
+	def _full_name(self, obj):
+		return "{} {}".format(obj.first_name, obj.last_name)
 
 
 class SkillSerializer(serializers.ModelSerializer):
@@ -21,11 +26,6 @@ class ProjectSerializer(serializers.ModelSerializer):
 class HackNightSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = HackNight
-
-
-class TagSerializer(serializers.ModelSerializer):
-	class Meta:
-		model = Tag
 
 
 class HackNightResourceSerializer(serializers.ModelSerializer):

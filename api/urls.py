@@ -8,7 +8,6 @@ router.register(r'members', views.MemberViewSet)
 router.register(r'skills', views.SkillViewSet)
 router.register(r'projects', views.ProjectViewSet)
 router.register(r'hack-nights', views.HackNightViewSet)
-router.register(r'tags', views.TagViewSet)
 router.register(r'hack-night-resources', views.HackNightResourceViewSet)
 router.register(r'announcements', views.AnnouncementViewSet)
 

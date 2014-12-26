@@ -26,11 +26,6 @@ class HackNightViewSet(viewsets.ModelViewSet):
 	serializer_class = HackNightSerializer
 
 
-class TagViewSet(viewsets.ModelViewSet):
-	queryset = Tag.objects.all()
-	serializer_class = TagSerializer
-
-
 class HackNightResourceViewSet(viewsets.ModelViewSet):
 	queryset = HackNightResource.objects.all()
 	serializer_class = HackNightResourceSerializer

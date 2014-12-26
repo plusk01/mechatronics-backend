@@ -33,17 +33,13 @@ class HackNight(models.Model):
 	title = models.CharField(max_length=255)
 	description = models.TextField()
 	date = models.DateField()
+	repo = models.CharField(max_length=100, null=True, blank=True)
 	presenter = models.ForeignKey(Member, related_name='presentations')
-	tags = models.ManyToManyField('Tag', related_name='presentations')
+	tags = models.CharField(max_length=300)
 
 	def __unicode__(self):
 		return "[{}]: '{}' by {}".format(self.id, self.title, self.presenter.username)
 
-class Tag(models.Model):
-	name = models.CharField(max_length=100)
-
-	def __unicode__(self):
-		return "[{}]: {}".format(self.id, self.name)
 
 class HackNightResource(models.Model):
 	presentation = models.ForeignKey(HackNight, related_name='resources')
