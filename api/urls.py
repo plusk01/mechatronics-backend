@@ -20,4 +20,6 @@ urlpatterns = patterns('',
 
 	#url(r'^questions$', views.QuestionList.as_view(), name='question-list'),
 
+	# JWT Auth
+	url(r'^api-token-auth/', 'rest_framework_jwt.views.obtain_jwt_token'),
 )
