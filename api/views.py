@@ -34,3 +34,8 @@ class HackNightResourceViewSet(viewsets.ModelViewSet):
 class AnnouncementViewSet(viewsets.ModelViewSet):
 	queryset = Announcement.objects.all()
 	serializer_class = AnnouncementSerializer
+
+
+class FieldOfStudyViewSet(viewsets.ModelViewSet):
+	queryset = FieldOfStudy.objects.all()
+	serializer_class = FieldOfStudySerializer
