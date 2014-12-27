@@ -7,7 +7,7 @@ from api.serializers import *
 
 # Create your views here.
 class MemberViewSet(viewsets.ModelViewSet):
-	queryset = Member.objects.all()
+	queryset = Member.members.all()
 	serializer_class = MemberSerializer
 
 

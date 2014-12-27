@@ -1,10 +1,12 @@
 from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import UserManager
 from django.conf import settings
-from django.contrib.auth import get_user_model
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from rest_framework.authtoken.models import Token
+
+from api.managers import MemberManager
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def create_auth_token(sender, instance=None, created=False, **kwargs):
@@ -12,22 +14,19 @@ def create_auth_token(sender, instance=None, created=False, **kwargs):
         Token.objects.create(user=instance)
 
 # Create your models here.
-class Member(AbstractUser):
-    projects = models.ManyToManyField('Project', null=True, blank=True)
-    skills = models.ManyToManyField('Skill', null=True, blank=True)
-    profile_picture = models.ImageField(upload_to='profiles', null=True, blank=True)
-    paid = models.NullBooleanField()
-    presenter = models.NullBooleanField()
-    honorary = models.NullBooleanField()
+class FieldOfStudy(models.Model):
+	name = models.CharField(max_length=255)
 
-    def __unicode__(self):
-        return "[{}]: {}".format(self.id, self.username)
+	def __unicode__(self):
+		return "[{}]: {}".format(self.id, self.name)
+
 
 class Skill(models.Model):
 	name = models.CharField(max_length=100)
 
 	def __unicode__(self):
 		return "[{}]: {}".format(self.id, self.name)
+
 
 class Project(models.Model):
 	name = models.CharField(max_length=255)
@@ -38,6 +37,28 @@ class Project(models.Model):
 
 	def __unicode__(self):
 		return "[{}]: {}".format(self.id, self.name)
+
+
+class Member(AbstractUser):
+	major = models.ForeignKey(FieldOfStudy, null=True, blank=True, related_name='major_members')
+	minor = models.ForeignKey(FieldOfStudy, null=True, blank=True, related_name='minor_members')
+	projects = models.ManyToManyField(Project, null=True, blank=True)
+	skills = models.ManyToManyField(Skill, null=True, blank=True)
+	profile_picture = models.ImageField(upload_to='profiles', null=True, blank=True)
+	paid = models.NullBooleanField()
+	presenter = models.NullBooleanField()
+	honorary = models.NullBooleanField()
+
+	# For the API
+	token_only = models.BooleanField(default=False)
+
+	# Managers
+	objects = UserManager()
+	members = MemberManager()
+
+	def __unicode__(self):
+		return "[{}]: {}".format(self.id, self.username)
+
 
 class HackNight(models.Model):
 	title = models.CharField(max_length=255)
@@ -59,6 +80,7 @@ class HackNightResource(models.Model):
 
 	def __unicode__(self):
 		return "[{}]: {}".format(self.id, self.presentation.title)
+
 
 class Announcement(models.Model):
 	title = models.CharField(max_length=100)
