@@ -7,6 +7,7 @@ from api.models import *
 class MemberSerializer(serializers.ModelSerializer):
 	full_name = serializers.SerializerMethodField('_full_name')
 	major = serializers.SerializerMethodField('_major')
+	minor = serializers.SerializerMethodField('_minor')
 
 	class Meta:
 		exclude = ['password', 'user_permissions']
@@ -16,7 +17,16 @@ class MemberSerializer(serializers.ModelSerializer):
 		return "{} {}".format(obj.first_name, obj.last_name)
 
 	def _major(self, obj):
-		return FieldOfStudySerializer(obj.major).data
+		if obj.major:
+			return FieldOfStudySerializer(obj.major).data
+
+		return None
+
+	def _minor(self, obj):
+		if obj.minor:
+			return FieldOfStudySerializer(obj.minor).data
+
+		return None
 
 
 class SkillSerializer(serializers.ModelSerializer):
