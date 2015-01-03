@@ -18,7 +18,7 @@ router.register(r'announcements', views.AnnouncementViewSet)
 urlpatterns = patterns('',
 	url(r'^', include(router.urls)),
 
-	#url(r'^questions$', views.QuestionList.as_view(), name='question-list'),
+	url(r'^contact$', views.contact_view, name='contact-view'),
 
 	# JWT Auth
 	url(r'^api-token-auth/', 'rest_framework_jwt.views.obtain_jwt_token'),
