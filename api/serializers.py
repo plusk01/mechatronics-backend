@@ -48,7 +48,7 @@ class HackNightSerializer(serializers.ModelSerializer):
 		model = HackNight
 
 	def _presenter(self, obj):
-		return MemberSerializer(obj.presenter).data
+		return MemberSerializer(obj.presenter, context=self.context).data
 
 	def _repo(self, obj):
 		if obj.repo:

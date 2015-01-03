@@ -95,10 +95,6 @@ class Member(AbstractBaseUser, PermissionsMixin):
 	    """
 	    send_mail(subject, message, from_email, [self.email], **kwargs)
 
-	def save(self, *args, **kwargs):
-		self.username = self.email
-		super(Member, self).save(*args, **kwargs)
-
 
 class HackNight(models.Model):
 	title = models.CharField(max_length=255)
@@ -109,7 +105,7 @@ class HackNight(models.Model):
 	tags = models.CharField(max_length=300)
 
 	def __unicode__(self):
-		return "[{}]: '{}' by {}".format(self.id, self.title, self.presenter.username)
+		return "[{}]: '{}' by {}".format(self.id, self.title, self.presenter.email)
 
 
 class HackNightResource(models.Model):
