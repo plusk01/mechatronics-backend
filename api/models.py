@@ -1,12 +1,13 @@
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.contrib.auth.models import UserManager
 from django.conf import settings
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.utils import timezone
 from rest_framework.authtoken.models import Token
 
-from api.managers import MemberManager
+from api.managers import MemberObjectsManager, MemberManager
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def create_auth_token(sender, instance=None, created=False, **kwargs):
@@ -39,7 +40,17 @@ class Project(models.Model):
 		return "[{}]: {}".format(self.id, self.name)
 
 
-class Member(AbstractUser):
+class Member(AbstractBaseUser, PermissionsMixin):
+	first_name = models.CharField(max_length=30, blank=True)
+	last_name = models.CharField(max_length=30, blank=True)
+	email = models.EmailField(max_length=255, unique=True, verbose_name='email address')
+	is_staff = models.BooleanField(default=False,
+	    help_text='Designates whether the user can log into this admin site.')
+	is_active = models.BooleanField(default=True,
+	    help_text='Designates whether this user should be treated as active. '
+	    	'Unselect this instead of deleting accounts.')
+	date_joined = models.DateTimeField(default=timezone.now)
+
 	major = models.ForeignKey(FieldOfStudy, null=True, blank=True, related_name='major_members')
 	minor = models.ForeignKey(FieldOfStudy, null=True, blank=True, related_name='minor_members')
 	projects = models.ManyToManyField(Project, null=True, blank=True)
@@ -50,14 +61,43 @@ class Member(AbstractUser):
 	honorary = models.NullBooleanField()
 
 	# For the API
-	token_only = models.BooleanField(default=False)
+	token_only = models.BooleanField(default=False,
+		help_text='Indicates that this isn\'t a real member, but only an API token.')
 
 	# Managers
-	objects = UserManager()
+	objects = MemberObjectsManager()
 	members = MemberManager()
 
+	USERNAME_FIELD = 'email'
+	REQUIRED_FIELDS = []
+
+	class Meta:
+		verbose_name = 'member'
+		verbose_name_plural = 'members'
+
 	def __unicode__(self):
-		return "[{}]: {}".format(self.id, self.username)
+		return "[{}]: {}".format(self.id, self.email)
+
+	def get_full_name(self):
+	    """
+	    Returns the first_name plus the last_name, with a space in between.
+	    """
+	    full_name = '%s %s' % (self.first_name, self.last_name)
+	    return full_name.strip()
+
+	def get_short_name(self):
+	    "Returns the short name for the user."
+	    return self.first_name
+
+	def email_user(self, subject, message, from_email=None, **kwargs):
+	    """
+	    Sends an email to this User.
+	    """
+	    send_mail(subject, message, from_email, [self.email], **kwargs)
+
+	def save(self, *args, **kwargs):
+		self.username = self.email
+		super(Member, self).save(*args, **kwargs)
 
 
 class HackNight(models.Model):
