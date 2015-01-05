@@ -51,6 +51,7 @@ class Member(AbstractBaseUser, PermissionsMixin):
 	    	'Unselect this instead of deleting accounts.')
 	date_joined = models.DateTimeField(default=timezone.now)
 
+	grad_year = models.IntegerField(default=0)
 	major = models.ForeignKey(FieldOfStudy, null=True, blank=True, related_name='major_members')
 	minor = models.ForeignKey(FieldOfStudy, null=True, blank=True, related_name='minor_members')
 	projects = models.ManyToManyField(Project, null=True, blank=True)

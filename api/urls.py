@@ -10,6 +10,7 @@ router.register(r'projects', views.ProjectViewSet)
 router.register(r'hack-nights', views.HackNightViewSet)
 router.register(r'hack-night-resources', views.HackNightResourceViewSet)
 router.register(r'announcements', views.AnnouncementViewSet)
+router.register(r'field-of-studies', views.FieldOfStudyViewSet)
 
 
 
