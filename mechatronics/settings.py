@@ -106,13 +106,6 @@ MEDIA_URL = '/media/'
 # Example: "/home/media/media.lawrence.com/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
-# Email Settings - through Zoho
-EMAIL_HOST = 'smtp.zoho.com'
-EMAIL_HOST_USER = 'info@byumechatronics.com'
-EMAIL_HOST_PASSWORD = 'byumechatronics2014'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-
 try:
     from local_settings import *
 except:
