@@ -70,6 +70,7 @@ class AnnouncementSerializer(serializers.ModelSerializer):
 	day = serializers.SerializerMethodField('_day')
 	month = serializers.SerializerMethodField('_month')
 	has_passed = serializers.SerializerMethodField('_has_passed')
+	is_today = serializers.SerializerMethodField('_is_today')
 
 	class Meta:
 		model = Announcement
@@ -82,6 +83,9 @@ class AnnouncementSerializer(serializers.ModelSerializer):
 
 	def _has_passed(self, obj):
 		return obj.has_passed()
+
+	def _is_today(self, obj):
+		return obj.is_today()
 
 
 class FieldOfStudySerializer(serializers.ModelSerializer):

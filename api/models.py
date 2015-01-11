@@ -153,3 +153,6 @@ class Announcement(models.Model):
 
 	def has_passed(self):
 		return True if self.date < datetime.date.today() else False
+
+	def is_today(self):
+		return True if self.date == datetime.date.today() else False
