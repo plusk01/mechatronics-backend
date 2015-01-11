@@ -7,6 +7,7 @@ from django.dispatch import receiver
 from django.utils import timezone
 from rest_framework.authtoken.models import Token
 
+import datetime
 import mailchimp
 
 from api.managers import MemberObjectsManager, MemberManager
@@ -141,6 +142,7 @@ class Announcement(models.Model):
 	short_description = models.CharField(max_length=255)
 	long_description = models.TextField(null=True, blank=True)
 	created = models.DateField(auto_now_add=True)
+	date = models.DateField(default=datetime.date.today)
 	creator = models.ForeignKey(Member, related_name='announcements')
 
 	def __unicode__(self):

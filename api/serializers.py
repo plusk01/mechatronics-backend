@@ -67,8 +67,17 @@ class HackNightResourceSerializer(serializers.ModelSerializer):
 
 
 class AnnouncementSerializer(serializers.ModelSerializer):
+	day = serializers.SerializerMethodField('_day')
+	month = serializers.SerializerMethodField('_month')
+
 	class Meta:
 		model = Announcement
+
+	def _day(self, obj):
+		return "{}".format(obj.date.strftime("%d"))
+
+	def _month(self, obj):
+		return "{}".format(obj.date.strftime("%B"))
 
 
 class FieldOfStudySerializer(serializers.ModelSerializer):
