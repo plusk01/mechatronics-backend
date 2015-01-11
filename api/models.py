@@ -10,7 +10,7 @@ from rest_framework.authtoken.models import Token
 import datetime
 import mailchimp
 
-from api.managers import MemberObjectsManager, MemberManager
+from api.managers import MemberObjectsManager, MemberManager, AnnouncementManager
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def create_auth_token(sender, instance=None, created=False, **kwargs):
@@ -139,11 +139,17 @@ class HackNightResource(models.Model):
 
 class Announcement(models.Model):
 	title = models.CharField(max_length=100)
-	short_description = models.CharField(max_length=255)
-	long_description = models.TextField(null=True, blank=True)
+	short_description = models.TextField()
 	created = models.DateField(auto_now_add=True)
 	date = models.DateField(default=datetime.date.today)
 	creator = models.ForeignKey(Member, related_name='announcements')
 
+	# so that this is still the default
+	objects = models.Manager()
+	recent_and_future = AnnouncementManager()
+
 	def __unicode__(self):
 		return "[{}]: {}".format(self.id, self.title)
+
+	def has_passed(self):
+		return True if self.date < datetime.date.today() else False

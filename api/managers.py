@@ -1,4 +1,7 @@
 from django.contrib.auth.models import BaseUserManager
+from django.db import models
+
+import datetime
 
 class MemberObjectsManager(BaseUserManager):
     def create_user(self, email, password=None):
@@ -32,3 +35,10 @@ class MemberObjectsManager(BaseUserManager):
 class MemberManager(MemberObjectsManager):
 	def get_queryset(self):
 		return super(MemberManager, self).get_queryset().filter(token_only=False)
+
+
+class AnnouncementManager(models.Manager):
+    def get_queryset(self):
+        ANNOUNCEMENT_SHOW_RECENT = 3
+        start_date = datetime.datetime.now() - datetime.timedelta(days=ANNOUNCEMENT_SHOW_RECENT)
+        return super(AnnouncementManager, self).get_queryset().filter(date__gte=start_date.date()).order_by('date')

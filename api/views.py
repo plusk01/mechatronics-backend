@@ -35,7 +35,7 @@ class HackNightResourceViewSet(viewsets.ModelViewSet):
 
 
 class AnnouncementViewSet(viewsets.ModelViewSet):
-	queryset = Announcement.objects.all()
+	queryset = Announcement.recent_and_future.all()
 	serializer_class = AnnouncementSerializer
 
 
