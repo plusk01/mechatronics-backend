@@ -75,9 +75,9 @@ class Member(AbstractBaseUser, PermissionsMixin):
 	projects = models.ManyToManyField(Project, null=True, blank=True)
 	skills = models.ManyToManyField(Skill, null=True, blank=True)
 	profile_picture = models.ImageField(upload_to='profiles', null=True, blank=True)
-	paid = models.NullBooleanField()
-	presenter = models.NullBooleanField()
-	honorary = models.NullBooleanField()
+	paid = models.BooleanField(default=False)
+	presenter = models.BooleanField(default=False)
+	honorary = models.BooleanField(default=False)
 
 	# For the API
 	token_only = models.BooleanField(default=False,
