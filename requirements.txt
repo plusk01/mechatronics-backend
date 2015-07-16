@@ -1,13 +1,14 @@
 Django==1.7.1
-Pillow==2.5.3
-PyJWT==0.3.2
 django-cors-headers==1.0.0
 djangorestframework==3.0.2
 djangorestframework-jwt==1.1.1
 docopt==0.4.0
 gnureadline==6.3.3
+gunicorn==19.3.0
 ipdb==0.8
 ipython==2.3.1
 mailchimp==2.0.9
+Pillow==2.5.3
+PyJWT==0.3.2
 requests==2.5.1
-wsgiref==0.1.2
+wheel==0.24.0
