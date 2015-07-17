@@ -52,7 +52,10 @@ class HackNightSerializer(serializers.ModelSerializer):
 
 	def _repo(self, obj):
 		if obj.repo:
-			return "{}/{}".format(settings.GITHUB_ROOT, obj.repo)
+			if 'http' in obj.repo or 'github' in obj.repo:
+				return obj.repo
+			else:
+				return "{}/{}".format(settings.GITHUB_ROOT, obj.repo)
 
 		return None
 
