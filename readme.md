@@ -129,6 +129,6 @@ The following assumes Ubuntu 14.04, but should be relatively transferrable to ot
 11. Set the `STATIC_ROOT` to the appropriate directory:
 
     ```python
-    STATIC_ROOT = '/home/root/apps/mechatronics-static'
+    STATIC_ROOT = '/root/apps/mechatronics-static'
     ```
 
