@@ -152,7 +152,7 @@ The following assumes Ubuntu 14.04, but should be relatively transferrable to ot
 
     ```bash
     service nginx restart
-
+    start mechatronics
     ```
 
 -----------------------------
