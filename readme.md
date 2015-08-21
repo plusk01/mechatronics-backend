@@ -7,7 +7,7 @@ To setup and run on a Mac or Linux machine follow the following steps:
 
 1. Setup your production environment
 2. Installing your app
-23 Setup a proxy to your app
+3. Setup a proxy to your app
 
 ### Setting Up a Production Environment ###
 
@@ -36,8 +36,8 @@ The following assumes Ubuntu 14.04, but should be relatively transferrable to ot
 4. Add the following to your shell's startup (`.profile`, `.bashrc`, etc):
 
     ```bash
-    export WORKON_HOME=$HOME/.virtualenvs
-    export PROJECT_HOME=$HOME/apps
+    export WORKON_HOME=/var/www/apps/.virtualenvs
+    export PROJECT_HOME=/var/www/apps
     source /usr/local/bin/virtualenvwrapper.sh
     ```
 
@@ -65,7 +65,7 @@ The following assumes Ubuntu 14.04, but should be relatively transferrable to ot
 
     ```bash
     git clone https://github.com/plusk01/mechatronics-backend.git
-    cd ~/apps/mechatronics-backend
+    cd /var/www/apps/mechatronics-backend
     ```
 
 3. Create a virtual environment for your app:
@@ -118,7 +118,7 @@ The following assumes Ubuntu 14.04, but should be relatively transferrable to ot
          }
      }
      ```
-10. With the virtualenv activated, run the following command inside of '~/apps/mechatronics-backend/':
+10. With the virtualenv activated, run the following command inside of '/var/www/apps/mechatronics-backend/':
 
     ```bash
     python manage.py syncdb
@@ -129,6 +129,42 @@ The following assumes Ubuntu 14.04, but should be relatively transferrable to ot
 11. Set the `STATIC_ROOT` to the appropriate directory:
 
     ```python
-    STATIC_ROOT = '/root/apps/mechatronics-static'
+    STATIC_ROOT = '/var/www/apps/mechatronics-static'
     ```
 
+12. Collect all the static files with the following:
+
+    ```bash
+    python manage.py collectstatic
+    ```
+
+### Setting Up Nginx ###
+
+1. Copy the `upstart` and `nginx` conf to the appropriate directories, and make a symlink for nginx:
+
+    ```bash
+    cp /var/www/apps/mechatronics-backend/conf/upstart-mechatronics.com /etc/init/mechatronics.conf
+    cp /var/www/apps/mechatronics-backend/conf/nginx-mechatronics.conf /etc/nginx/sites-available/mechatronics.conf
+    ln /etc/nginx/sites-available/api.mechatronics.conf /etc/nginx/sites-enabled/api.mechatronics.conf
+    ```
+
+2. Restart nginx:
+
+    ```bash
+    service nginx restart
+
+    ```
+
+-----------------------------
+
+```bash
+# Switch from systemd to upstart
+sudo apt-get install upstart-sysv
+sudo update-initramfs -u
+sudo reboot
+
+# Switch from upstart to systemd
+sudo apt-get install ubuntu-standard systemd-sysv
+sudo update-initramfs -u
+sudo reboot
+```
