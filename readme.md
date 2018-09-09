@@ -168,3 +168,10 @@ sudo apt-get install ubuntu-standard systemd-sysv
 sudo update-initramfs -u
 sudo reboot
 ```
+
+----------------------------
+
+## Change log
+
+**9 Sept 2018**
+- Changed email address for contact form

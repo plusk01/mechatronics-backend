@@ -16,7 +16,7 @@ ADMINS = (
     ('Parker Lusk', 'parkerclusk@gmail.com'),
 )
 
-MAILTO = 'info@byumechatronics.com'
+MAILTO = 'byumechatronics@gmail.com'
 
 GITHUB_ROOT = 'https://github.com/byu-mechatronics'
 
